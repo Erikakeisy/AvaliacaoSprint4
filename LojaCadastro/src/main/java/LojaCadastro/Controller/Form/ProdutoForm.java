@@ -1,33 +1,46 @@
 package LojaCadastro.Controller.Form;
 
 
+import javax.validation.constraints.NotBlank;
+import com.sun.istack.NotNull;
 import LojaCadastro.Modelo.Produto;
 import LojaCadastro.Repository.RepositoryProduto;
 
-public class ProdutoForm {
+
+//////////////CLASSE FORM///////////////
+	public class ProdutoForm {
 	
-	private Long id;
+	@NotBlank
+	private String descricao;
+	@NotNull
+	private double precoUnitario;
 	
-	private String nomeProduto;
-	
-	private double preco;
-	
+////////////// TO FORM /////////////////	
 	public Produto toForm(RepositoryProduto RP) {
-		return new Produto(id,nomeProduto,preco);
+		Produto produto = new Produto(null, descricao, precoUnitario);
+		RP.save(produto);
+		return produto;
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
+//////////////// GET E SET /////////////////
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setPrecoUnitario(double precoUnitario) {
+		this.precoUnitario = precoUnitario;
 	}
 
 
-	public void setNomeProduto(String nomeProduto) {
-		this.nomeProduto = nomeProduto;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setPreco(double preco) {
-		this.preco = preco;
+
+	public double getPrecoUnitario() {
+		return precoUnitario;
 	}
+	
 
 
 

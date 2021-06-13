@@ -9,10 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
-import com.sun.istack.NotNull;
 
 
 
@@ -22,26 +18,47 @@ public class Usuario {
 	//INFORMAÇÕES PESSOAIS
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotEmpty @NotNull @NotBlank
+	
 	private Long id;
-	@NotEmpty @NotNull @NotBlank
+	
 	private Long cpf;
-	@NotEmpty @NotNull @NotBlank
+	
+	
 	private String nome;
-	@NotEmpty @NotNull @NotBlank
+	
 	private char sexo;
-	@NotEmpty @NotNull @NotBlank
+	
 	private double salario;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "usuarioId")
 	private List<Endereco> endereco;
 	
+	/// CONSTRUCTOR ////
+	
 	public Usuario() {
 		
 	}
-	
+
+	public Usuario(Long cpf, String nome, double salario) {
+		super();
+		this.cpf = cpf;
+		this.nome = nome;
+		this.salario = salario;
+	}
+
+
 	//GET E SET
+	
+	public List<Endereco> getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(List<Endereco> endereco) {
+		this.endereco = endereco;
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,10 +99,6 @@ public class Usuario {
 		this.salario = salario;
 	}
 	
-	 ///CONSTRUCTOR///
-			public Usuario( Long cpf, String nome) {
-			this.cpf = cpf;
-			this.nome = nome;
-		}
-
 }
+			
+	  

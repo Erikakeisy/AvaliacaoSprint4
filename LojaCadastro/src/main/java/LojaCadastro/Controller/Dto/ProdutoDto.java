@@ -6,37 +6,67 @@ import java.util.stream.Collectors;
 import LojaCadastro.Modelo.Produto;
 
 
-
-public class ProdutoDto {
-	
+     ////////////// CLASSE DTO///////////
+	public class ProdutoDto {
+		
+	////// INFOS/////////////////
 	private Long id;
 
-	private String nomeProduto;
+	private String descricao;
 	
-	private double preco;
+	private double precoUnitario;
 	
 	
-	public ProdutoDto(Produto produto) {
-		//this.id = produto.getId();
-		this.nomeProduto = produto.getNomeProduto();
-		this.preco = produto.getPreco();
-		
-	}
+	
+    //// GET E SET
 	
 	public Long getId() {
 		return id;
 	}
-	public String getNomeProduto() {
-		return nomeProduto;
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public double getPreco() {
-		return preco;
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+
+	public double getPrecoUnitario() {
+		return precoUnitario;
+	}
+
+
+	public void setPrecoUnitario(double precoUnitario) {
+		this.precoUnitario = precoUnitario;
+	}
+
+	
+
+	
+	
+	////////////////CONSTRUCTOR////////////////
+	public static ProdutoDto converter(Produto produto) {
+		ProdutoDto pDto = new ProdutoDto();
+		pDto.setDescricao(produto.getNomeProduto());
+		pDto.setPrecoUnitario(produto.getPreco());
+		return pDto;
+		
 	}
 
 	public static List<ProdutoDto> converter(List<Produto> produto){
-		return produto.stream().map(ProdutoDto::new).collect(Collectors.toList());
+		return produto.stream().map(prod -> converter (prod)).collect(Collectors.toList());
 	}
+
+	
 	
 
 }

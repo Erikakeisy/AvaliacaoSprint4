@@ -15,26 +15,29 @@ public class Produto {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String nomeProduto;
+	private String descricao;
 	
-	private double preco;
+	private double precoUnitario;
 	
 	
 	
 	//CONSTRUCTOR
-	public Produto(Long id, String nomeProduto, double preco) {
-		//this.id = id;
-		this.nomeProduto = nomeProduto;
-		this.preco = preco;
+	 public Produto() {
+		
+	 }
+	
+	public Produto(Long id, String descricao, double precoUnitario) {
+		
+		this.descricao = descricao;
+		this.precoUnitario = precoUnitario;
 		
 	}
 	
-
 	// GET E SET 
 	
 	
 	public String getNomeProduto() {
-		return nomeProduto;
+		return descricao;
 	}
 
 	public Long getId() {
@@ -47,17 +50,17 @@ public class Produto {
 	}
 
 
-	public void setNomeProduto(String nomeProduto) {
-		this.nomeProduto = nomeProduto;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 
 	public double getPreco() {
-		return preco;
+		return precoUnitario;
 	}
 
-	public void setPreco(double preco) {
-		this.preco = preco;
+	public void setPrecoUnitario(double precoUnitario) {
+		this.precoUnitario = precoUnitario;
 	}
 
 

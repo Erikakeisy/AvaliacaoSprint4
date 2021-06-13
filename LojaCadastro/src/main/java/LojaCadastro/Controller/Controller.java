@@ -1,6 +1,9 @@
 package LojaCadastro.Controller;
 
+import java.util.Arrays;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,24 +11,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
 
 import LojaCadastro.Controller.Dto.EnderecoDto;
+import LojaCadastro.Controller.Dto.PedidoDto;
 import LojaCadastro.Controller.Dto.ProdutoDto;
 import LojaCadastro.Controller.Dto.UsuarioDto;
 import LojaCadastro.Controller.Form.EnderecoForm;
+import LojaCadastro.Controller.Form.PedidoForm;
 import LojaCadastro.Controller.Form.ProdutoForm;
 import LojaCadastro.Controller.Form.UsuarioForm;
 import LojaCadastro.Modelo.Endereco;
+import LojaCadastro.Modelo.Pedido;
 import LojaCadastro.Modelo.Produto;
 import LojaCadastro.Modelo.Usuario;
 import LojaCadastro.Repository.RepositoryEndereco;
+import LojaCadastro.Repository.RepositoryPedido;
 import LojaCadastro.Repository.RepositoryProduto;
-import javax.validation.Valid;
+
 
 //import org.springframework.web.bind.annotation.*;
 import java.net.URI;
@@ -44,44 +51,44 @@ public class Controller {
 	@Autowired
 	private RepositoryEndereco RE;
 	
-	//@Autowired
-	//private RepositoryPedido PE;
+	@Autowired
+	private RepositoryPedido PE;
 	
 	
 	////////////////////USUARIO//////////////////////////
-	@GetMapping("/usuario") 
-	@ApiOperation(value = "Método para visualizar usuarios")
+	@RequestMapping("/usuario")
+	@ApiOperation(value = "Método para listar usuarios")
 	public List<UsuarioDto> lista(){
-	  List<Usuario> usuarios = US.findAll();
-	  return UsuarioDto.converter(usuarios);
+		List<Usuario> usuarios = US.findAll();
+		return UsuarioDto.converter(usuarios);
 	}
 	
 	@PostMapping("/usuario") 
 	@ApiOperation(value = "Método para cadastrar usuarios")
-	public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<UsuarioDto> cadastrar(@RequestBody  UsuarioForm form, UriComponentsBuilder uriBuilder){
 		Usuario usuario = form.toForm(US); 
 		US.save(usuario);
 		URI uri = uriBuilder.path("/usuario").buildAndExpand(usuario.getId()).toUri();
-		return ResponseEntity.created(uri).body(new UsuarioDto(usuario));
+		return ResponseEntity.created(uri).body(new UsuarioDto());
 		
 	}
 	
 	///////////////////PRODUTO////////////////////////////
 	
-	@GetMapping("/produto")
+	@RequestMapping("/produto")
 	@ApiOperation(value = "Método para visualizar produtos")
 	public List<ProdutoDto> listar (){
-	  List<Produto> produto = RP.findAll();
-	  return ProdutoDto.converter(produto);
+	List<Produto> produto = RP.findAll();
+	return ProdutoDto.converter(produto);
 	}
 	// Colocar anotação @Valid depois de @RequestBody
 	@PostMapping ("/produto")
 	@ApiOperation(value = "Método para cadastrar produtos")
-	public ResponseEntity<ProdutoDto> cadastrar(@RequestBody @Valid ProdutoForm form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<ProdutoDto> cadastrar(@RequestBody  ProdutoForm form, UriComponentsBuilder uriBuilder){
 		Produto produto = form.toForm(RP);
 		RP.save(produto);
 		URI uri = uriBuilder.path("/produto").buildAndExpand(produto.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ProdutoDto(produto));
+		return ResponseEntity.created(uri).body(new ProdutoDto());
 	}
 	
 	
@@ -97,13 +104,32 @@ public class Controller {
 	// Colocar anotação Valid depois de @RequestBody
 	@PostMapping("/endereco") 
 	@ApiOperation(value = "Método para cadastrar endereco")
-	public ResponseEntity<EnderecoDto> cadastrar(@RequestBody @Valid EnderecoForm form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<EnderecoDto> cadastrar(@RequestBody EnderecoForm form, UriComponentsBuilder uriBuilder){
 		Endereco endereco = form.toForm(RE); 
 		RE.save(endereco);
 		URI uri = uriBuilder.path("/endereco").buildAndExpand(endereco.getId()).toUri();
-		return ResponseEntity.created(uri).body(new EnderecoDto(endereco));
+		return ResponseEntity.created(uri).body(new EnderecoDto());
 	}
 	
+	
+	/////////////////PEDIDO/////////////////////////////
+	
+	@RequestMapping("/pedido")
+	@ApiOperation(value = "Método para pedidos")
+	public List<PedidoDto> pedido(){
+		List<Pedido> pedidos = PE.findAll();
+		return PedidoDto.converter(pedidos);
+	}
+	
+	@PostMapping("/pedido") 
+	@ApiOperation(value = "Método para pedidos")
+	public ResponseEntity<PedidoDto> cadastrar(@RequestBody  PedidoForm form, UriComponentsBuilder uriBuilder){
+		Pedido pedidos = form.toForm(US, PE, RP); 
+		URI uri = uriBuilder.path("/pedido").buildAndExpand(pedidos.getId()).toUri();
+		new PedidoDto();
+		return ResponseEntity.created(uri).body(PedidoDto.converter(pedidos));
+		
+	}
 
 }
 	

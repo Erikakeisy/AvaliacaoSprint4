@@ -4,28 +4,42 @@ import java.util.List;
 import java.util.stream.Collectors;
 import LojaCadastro.Modelo.Usuario;
 
-public class UsuarioDto {
+
+//////////////CLASE DTO///////////////
+	public class UsuarioDto {
 	
 	private Long cpf;
 	
 	private String nome;
-	
-	public UsuarioDto(Usuario usuario) {
-		this.cpf = usuario.getCpf();
-		this.nome = usuario.getNome();
-	}
+
+/////////GET E SET//////////
 	
 	public Long getCpf() {
 		return cpf;
 	}
 
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public String getNome() {
 		return nome;
 	}
-	
-	public static List<UsuarioDto> converter(List<Usuario> usuarios){
-		return usuarios.stream().map(UsuarioDto::new).collect(Collectors.toList());
+/////////////CONSTRUCTOR////////////////	
+	public static UsuarioDto converter(Usuario u) {
+		UsuarioDto dUs = new UsuarioDto();
+		dUs.setNome(u.getNome());
+		dUs.setCpf(u.getCpf());
+		return dUs;
 	}
 	
+	public static List<UsuarioDto> converter(List<Usuario> usuario){
+		return usuario.stream().map(us -> converter (us)).collect(Collectors.toList());
+	}
+
 
 }

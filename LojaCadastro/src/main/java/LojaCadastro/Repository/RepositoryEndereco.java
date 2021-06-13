@@ -9,7 +9,7 @@ import LojaCadastro.Modelo.Endereco;
 @Repository
 public interface RepositoryEndereco extends JpaRepository<Endereco, Long> {
 
-	  // Usuario findByEndereco(String enderecoUsuario) ;
+	
 		
 	
 	 

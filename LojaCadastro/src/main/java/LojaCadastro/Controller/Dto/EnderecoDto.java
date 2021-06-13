@@ -2,23 +2,21 @@ package LojaCadastro.Controller.Dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import LojaCadastro.Modelo.Endereco;
 
-public class EnderecoDto {
+/////////////////CLASSE DTO//////////////////
+	public class EnderecoDto {
 	
 	
 	private String estado;
 	
 	private String cidade;
 	
-	private String cep;
-	
 	private String rua;
 	
-	private String pais;
 	
 	
+////////////////////GET E SET///////////////////	
 	public String getEstado() {
 		return estado;
 	}
@@ -27,30 +25,36 @@ public class EnderecoDto {
 		return cidade;
 	}
 
-	public String getCep() {
-		return cep;
-	}
-
+	
 	public String getRua() {
 		return rua;
 	}
 
-	public String getPais() {
-		return pais;
-	}
 	
-		public EnderecoDto(Endereco endereco) {
-	    this.pais = endereco.getPais();
-	    this.estado = endereco.getEstado();
-	    this.cidade = endereco.getCidade();
-	    this.rua = endereco.getRua();
-	    this.cep = endereco.getCep();
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-	
 
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
+
+///////////////COSNTRUCTOR////////////////////	
+	public static EnderecoDto converter(Endereco e) {
+		EnderecoDto dEnd = new EnderecoDto();
+		dEnd.setEstado(e.getEstado());
+		dEnd.setCidade(e.getCidade());
+		dEnd.setRua(e.getRua());
+		return dEnd;
+	}
 
 	public static List<EnderecoDto> converter(List<Endereco> endereco){
-		return endereco.stream().map(EnderecoDto::new).collect(Collectors.toList());
+		return endereco.stream().map(end -> converter (end)).collect(Collectors.toList());
 	}
 	
 	

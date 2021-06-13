@@ -1,21 +1,43 @@
 package LojaCadastro.Controller.Form;
 
 
+import javax.validation.constraints.NotBlank;
+import com.sun.istack.NotNull;
 import LojaCadastro.Modelo.Usuario;
-
 import LojaCadastro.Repository.RepositoryUsuario;
 
-public class UsuarioForm {
-	
+
+/////////////// CLASSE FORM //////////////////
+	public class UsuarioForm {
+	@NotBlank
 	private Long cpf;
-	
+	@NotBlank
 	private String nome;
+	 @NotNull
+	private double salario;
 	
-	
+///////////////// TO FORM /////////////////	
 	public Usuario toForm(RepositoryUsuario RU) {
-		return new Usuario(cpf,nome);
+		Usuario usuario = new Usuario(cpf, nome,salario);
+		RU.save(usuario);
+		return usuario;
 	}
-	
+
+///////// GET E SET ////////////////////
+
+	public void setSalario(double salario) {
+		this.salario = salario;
+	}
+
+
+	public void setCpf(Long cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public Long getCpf() {
 		return cpf;
 	}
@@ -24,12 +46,8 @@ public class UsuarioForm {
 		return nome;
 	}
 
-	public void setCpf(Long cpf) {
-		this.cpf = cpf;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+	public double getSalario() {
+		return salario;
 	}
    
 	

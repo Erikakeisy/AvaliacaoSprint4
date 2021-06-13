@@ -25,7 +25,10 @@ public class Endereco {
 	
 	
 // CONSTRUCTOR
-	public Endereco(Long id , String estado, String cidade, String cep, String rua, String pais) {
+		public Endereco() {
+		
+		}
+		public Endereco(Long id , String estado, String cidade, String cep, String rua, String pais) {
 		super();
 		this.id = id;
 		this.estado = estado;
