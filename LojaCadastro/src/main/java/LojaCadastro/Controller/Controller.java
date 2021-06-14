@@ -1,9 +1,8 @@
 package LojaCadastro.Controller;
 
-import java.util.Arrays;
+
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
-
-
 import LojaCadastro.Controller.Dto.EnderecoDto;
 import LojaCadastro.Controller.Dto.PedidoDto;
 import LojaCadastro.Controller.Dto.ProdutoDto;
@@ -81,7 +76,8 @@ public class Controller {
 	List<Produto> produto = RP.findAll();
 	return ProdutoDto.converter(produto);
 	}
-	// Colocar anotação @Valid depois de @RequestBody
+	
+
 	@PostMapping ("/produto")
 	@ApiOperation(value = "Método para cadastrar produtos")
 	public ResponseEntity<ProdutoDto> cadastrar(@RequestBody  ProdutoForm form, UriComponentsBuilder uriBuilder){
@@ -101,7 +97,7 @@ public class Controller {
 	  List<Endereco> endereco = RE.findAll();
 	  return EnderecoDto.converter(endereco);
 	}
-	// Colocar anotação Valid depois de @RequestBody
+	
 	@PostMapping("/endereco") 
 	@ApiOperation(value = "Método para cadastrar endereco")
 	public ResponseEntity<EnderecoDto> cadastrar(@RequestBody EnderecoForm form, UriComponentsBuilder uriBuilder){
@@ -116,7 +112,7 @@ public class Controller {
 	
 	@RequestMapping("/pedido")
 	@ApiOperation(value = "Método para pedidos")
-	public List<PedidoDto> pedido(){
+	public List<PedidoDto> listar2(){
 		List<Pedido> pedidos = PE.findAll();
 		return PedidoDto.converter(pedidos);
 	}

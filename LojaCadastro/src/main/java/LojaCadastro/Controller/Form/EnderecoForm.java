@@ -72,5 +72,4 @@ import LojaCadastro.Repository.RepositoryEndereco;
 		this.pais = pais;
 	}
 
-
 }
