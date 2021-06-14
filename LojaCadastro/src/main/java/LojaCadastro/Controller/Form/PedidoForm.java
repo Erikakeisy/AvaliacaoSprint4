@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
-
 import com.sun.istack.NotNull;
 
 import LojaCadastro.Modelo.Pedido;
@@ -44,6 +43,7 @@ import LojaCadastro.Repository.RepositoryUsuario;
 		PE.save(pedido);
 		return pedido;
 	}
+	
 
 
 }

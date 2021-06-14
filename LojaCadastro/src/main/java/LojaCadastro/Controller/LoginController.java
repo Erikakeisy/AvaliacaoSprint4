@@ -18,8 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 
-
-@Api(value="LOJINHA DA ERIKA")
+@Api(value="LOJINHA DA ERIKA", description = "CADASTRO PARA LOGIN")
 @CrossOrigin(origins="*")
 @RequestMapping("/login")
 @RestController

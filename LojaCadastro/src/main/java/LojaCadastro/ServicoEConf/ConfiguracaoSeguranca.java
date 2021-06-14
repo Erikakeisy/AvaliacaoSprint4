@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,7 +27,7 @@ public class ConfiguracaoSeguranca extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private RepositoryCliente RC;
 	@Autowired
-	private TokenService ST;
+	private ServicoToken TS;
 	
 	
 	@Override
@@ -52,10 +51,13 @@ public class ConfiguracaoSeguranca extends WebSecurityConfigurerAdapter {
 	        .antMatchers(HttpMethod.POST, "/endereco").permitAll()
 	        .antMatchers(HttpMethod.GET, "/pedido").permitAll()
 	        .antMatchers(HttpMethod.POST, "/pedido").permitAll()
+	        .antMatchers(HttpMethod.POST, "/autenticacao").permitAll()
+	        .antMatchers(HttpMethod.POST, "/user").permitAll()
+	        .antMatchers(HttpMethod.GET, "/user").permitAll()
 	        .anyRequest().authenticated()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .addFilterBefore(new FiltroToken(ST, RC), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new FiltroToken(TS, RC), UsernamePasswordAuthenticationFilter.class);
 	 }
 	 
 	 @Override

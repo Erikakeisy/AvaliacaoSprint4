@@ -18,8 +18,7 @@ import LojaCadastro.ServicoEConf.ServicoToken;
 
 import javax.validation.Valid;
 
-
-	@Api(value="LOJINHA DA ERIKA")
+	@Api(value="LOJINHA DA ERIKA",description = "AUTENTICAÇÃO")
 	@CrossOrigin(origins="*")
 	@RestController
 	@RequestMapping("/autenticacao")

@@ -3,7 +3,7 @@ package LojaCadastro.ServicoEConf;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import LojaCadastro.Modelo.Cliente;
@@ -16,64 +16,55 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-public class FiltroToken extends OncePerRequestFilter {
-	
-	private TokenService TokenN;
-	private RepositoryCliente RC;
-	
-	
-		public FiltroToken (TokenService TokenN, RepositoryCliente rC2) {
-		TokenN = TokenN;
-		RC = rC2;
-	}
-        @Override
-		protected void doFilterInternal
-	            (HttpServletRequest httpServletRequest,
-	             HttpServletResponse httpServletResponse,
-	             FilterChain filterChain)
-	            throws ServletException, IOException {
-	        	String token = FiltroToken(httpServletRequest);
-	        	boolean valid = TokenN.isValidToken(token);
-	        	if (valid) {
-	            authenticate(token);
-	        }
-	        	
-	        filterChain.doFilter(httpServletRequest, httpServletResponse);
-	    }
-	 
 
-	private String FiltroToken(HttpServletRequest httpServletRequest) {
-		String token = httpServletRequest.getHeader("Authorization");
-        if (token == null || token.isEmpty() || !token.startsWith("Bearer")) {
-			return null;
+
+		public class FiltroToken extends OncePerRequestFilter {
+	
+       
+	    private ServicoToken TS;
+	    private RepositoryCliente RC;
+
+
+		public FiltroToken(ServicoToken tS, RepositoryCliente rC) {
+			super();
+			TS = tS;
+			RC = rC;
 		}
 
-	        return token.substring(8, token.length());	
-	        
+		@Override
+	    protected void doFilterInternal
+	            (HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,FilterChain filterChain)
+	            throws ServletException, IOException {
+	        String token = FindToken(httpServletRequest);
+	        boolean valid = TS.isValidToken(token);
+	        if (valid) {
+	            authenticate(token);
 	        }
-	private void authenticate(String token) {
-		  boolean valid = TokenN.isValidToken(token);
+	        filterChain.doFilter(httpServletRequest, httpServletResponse);
+	    }
+
+	    private String FindToken(HttpServletRequest httpServletRequest) {
+	        String token = httpServletRequest.getHeader("Authorization");
+	        if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
+	            return null;
+	        }
+	        return token.substring(8, token.length());
+	    }
+
+	    private void authenticate (String token){
+	        Long id = TS.getId(token);
 	        try {
-	            Long id;
-				Cliente cliente = RC.findById(id).get();
+	            Cliente cliente = RC.findById(id).get();
 	            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken
 	                    (cliente.getEmail(), null, cliente.getAuthorities());
 	            SecurityContextHolder.getContext().setAuthentication(authentication);
 	        }
 	        catch (NoSuchElementException e) {
-	            System.out.println("ACESSO NEGADO" + "TOKEN INVALIDO");
+	            System.out.println("ACESSO NEGADO" + "TOKEN INVÁLIDO");
 	        }
-		
-		
+	    
 	}
 
-	public TokenService getTokenN() {
-		return TokenN;
-	}
-
-	public void setUS(TokenService TokenN) {
-		TokenN = TokenN;
-	}
 	}
 	
 	
